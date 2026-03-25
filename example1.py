@@ -27,3 +27,11 @@ for i, chunk in enumerate(chunks):
 # 切分出了 2 个块。
 # 块 1: '段落一：这是第一个段落。'
 # 块 2: '段落二：这是第二个段落，内容稍长一些，用于演示分割效果。'
+
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+# 一个更复杂的文本示例，包含多种潜在的分隔符
+complex_text = "RAG系统介绍。\n核心组件包括：检索器和生成器。检索器负责从知识库中获取信息。生成器则负责利用这些信息回答问题。\n\n这是一个新的段落。"
+
+# 1. 初始化RecursiveCharacterTextSplitter
+# 无须指定分隔符，它会使用默认的优先列表
