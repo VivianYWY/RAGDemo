@@ -58,3 +58,12 @@ embeddings_model = HuggingFaceEmbeddings(
     model_kwargs=model_kwargs,
     encode_kwargs=encode_kwargs
 )
+
+# 3. 使用 FAISS.from_documents() 类方法，一步完成向量化与索引构建
+# 该方法会遍历所有文本块，使用指定的 embedding 模型将其向量化，
+# 然后将所有向量存入 FAISS 索引中。
+vector_store = FAISS.from_documents(chunks_as_docs, embeddings_model)
+
+# 4. 验证索引构建是否成功
+print(f"向量索引已成功构建，包含 {vector_store.index.ntotal} 个向量。")
+# 输出示例：向量索引已成功构建，包含 3 个向量。
