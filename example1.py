@@ -67,3 +67,28 @@ vector_store = FAISS.from_documents(chunks_as_docs, embeddings_model)
 # 4. 验证索引构建是否成功
 print(f"向量索引已成功构建，包含 {vector_store.index.ntotal} 个向量。")
 # 输出示例：向量索引已成功构建，包含 3 个向量。
+
+# 假设 'vector_store' 对象已通过上一节的代码构建完成
+# (为保持代码独立, 此处包含了上一节构建过程的简化版本)
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_core.documents import Document
+
+# --- 前置准备 ---
+chunks_as_docs = [Document(page_content="FAISS 是一个高效的向量相似性搜索库。")]
+embeddings_model = HuggingFaceEmbeddings(
+    model_name="BAAI/bge-small-zh-v1.5",
+    model_kwargs={'device': 'cpu'}
+)
+vector_store = FAISS.from_documents(chunks_as_docs, embeddings_model)
+# --- 前置准备结束 ---
+
+# 1. 定义用户查询
+query = "什么是 FAISS? "
+
+# 2. 调用 similarity_search 方法执行检索
+# k=1 表示我们希望返回最相似的 1 个结果
+retrieved_docs = vector_store.similarity_search(query, k=1)
+
+# 3. 打印检索结果
+print(f"查询: '{query}'")
