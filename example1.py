@@ -92,3 +92,31 @@ retrieved_docs = vector_store.similarity_search(query, k=1)
 
 # 3. 打印检索结果
 print(f"查询: '{query}'")
+
+from langchain.prompts import PromptTemplate
+# 1. 定义一个包含'context'和'question'两个输入变量的提示词模板字符串
+prompt_template_str = """
+请基于以下提供的上下文信息来回答问题。
+如果上下文中没有足够的信息来回答问题，请直接说"根据提供的资料，我无法回答该问题。"
+上下文:
+{context}
+问题:
+{question}
+回答:
+"""
+
+# 2. 使用该字符串初始化 PromptTemplate 对象
+rag_prompt_template = PromptTemplate.from_template(prompt_template_str)
+
+# 3. 准备示例的上下文和问题
+sample_context = "FAISS 是一个由 Facebook AI 研究院开发的高效向量相似性搜索库。"
+sample_question = "FAISS 是由哪个公司开发的？"
+
+# 4. 使用 .format() 方法填充模板，生成最终的提示
+final_prompt = rag_prompt_template.format(
+    context=sample_context,
+    question=sample_question
+)
+
+# 5. 打印生成的最终提示
+print(final_prompt)
