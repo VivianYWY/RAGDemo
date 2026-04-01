@@ -120,3 +120,29 @@ final_prompt = rag_prompt_template.format(
 
 # 5. 打印生成的最终提示
 print(final_prompt)
+
+def mock_llm_call(prompt):
+    # 这是一个模拟调用，实际应用中应替换为真实的 LLM 调用
+    if "优点" in prompt and "RAG" in prompt:
+        return "RAG技术有哪些优点？"
+    return "无法改写查询"
+
+# 1. 初始化对话历史
+chat_history = ChatMessageHistory()
+chat_history.add_user_message("什么是 RAG 技术？")
+chat_history.add_ai_message("RAG 是检索增强生成技术的缩写。")
+
+# 2. 用户的最新追问
+latest_question = "它有哪些优点？"
+
+# 3. 构建用于查询改写的提示词模板
+rewrite_prompt_template = PromptTemplate.from_template(
+    """根据以下的对话历史和用户提出的后续问题，
+请将后续问题改写成一个独立的、无须依赖对话历史就能被理解的新问题。
+对话历史：
+{chat_history}
+后续问题：
+{question}
+改写后的独立问题：
+"""
+)
