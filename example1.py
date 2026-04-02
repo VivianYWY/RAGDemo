@@ -146,3 +146,26 @@ rewrite_prompt_template = PromptTemplate.from_template(
 改写后的独立问题：
 """
 )
+
+# 4. 将对话历史转换为字符串格式（修正版）
+history_str = "\n".join([
+    f"用户: {msg.content}" if hasattr(msg, 'type') and msg.type == "human"
+    else f"助手: {msg.content}" if hasattr(msg, 'type') and msg.type == "ai"
+    else f"用户: {msg.content}" if msg.__class__.__name__ == "HumanMessage"
+    else f"助手: {msg.content}" for msg in chat_history.messages
+])
+
+# 5. 格式化查询改写提示
+rewrite_prompt = rewrite_prompt_template.format(
+    chat_history=history_str,
+    question=latest_question
+)
+
+# 6. 调用 LLM（此处为模拟调用）执行查询改写
+standalone_question = mock_llm_call(rewrite_prompt)
+
+# 7. 打印结果
+print(f"原始追问: {latest_question}")
+print(f"改写后的独立查询: {standalone_question}")
+
+# 后续的 RAG 流程将使用这个 'standalone_question' 进行检索，而非原始追问
