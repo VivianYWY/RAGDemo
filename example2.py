@@ -13,3 +13,12 @@ class ReasoningEngine:
 任务：{task}
 请返回 JSON 格式：{{"sub_tasks": ["步骤1", "步骤2"], "strategy": "分解策略"}}
 """
+self.chain = ChatPromptTemplate.from_template(prompt_template) | self.llm | self.parser
+
+def decompose_task(self, task: str) -> dict:
+    """执行任务分解"""
+    return self.chain.invoke({"task": task})
+
+# 使用示例
+engine = ReasoningEngine()
+result = engine.decompose_task("分析企业 Q4 销售数据并制定营销策略")
