@@ -39,3 +39,8 @@ class ShortTermMemory:
             "user_input": user_input,
             "agent_response": agent_response
         }
+
+        self.conversation_history.append(interaction)
+        # 维护历史记录长度限制
+        if len(self.conversation_history) > self.max_history:
+            self.conversation_history = self.conversation_history[-self.max_history:]
