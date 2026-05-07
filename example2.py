@@ -44,3 +44,11 @@ class ShortTermMemory:
         # 维护历史记录长度限制
         if len(self.conversation_history) > self.max_history:
             self.conversation_history = self.conversation_history[-self.max_history:]
+
+def get_contextual_summary(self, last_n_turns: int = 5) -> str:
+    """生成最近 N 轮对话的上下文摘要"""
+    recent_interactions = self.conversation_history[-last_n_turns:]
+    context_parts = []
+    for interaction in recent_interactions:
+        context_parts.append(f"用户：{interaction['user_input']}")
+        context_parts.append(f"回复：{interaction['agent_response']}")
