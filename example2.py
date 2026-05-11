@@ -52,3 +52,4 @@ def get_contextual_summary(self, last_n_turns: int = 5) -> str:
     for interaction in recent_interactions:
         context_parts.append(f"用户：{interaction['user_input']}")
         context_parts.append(f"回复：{interaction['agent_response']}")
+        return "\n".join(context_parts)
