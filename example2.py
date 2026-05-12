@@ -53,3 +53,9 @@ def get_contextual_summary(self, last_n_turns: int = 5) -> str:
         context_parts.append(f"用户：{interaction['user_input']}")
         context_parts.append(f"回复：{interaction['agent_response']}")
         return "\n".join(context_parts)
+        
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+from langchain_core.documents import Document
+
+class LongTermMemory:
