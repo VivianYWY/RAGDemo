@@ -59,3 +59,10 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_core.documents import Document
 
 class LongTermMemory:
+    """长期记忆：跨会话的经验存储与检索"""
+def __init__(self, persist_directory: str = "./agent_memory"):
+    self.embeddings = OpenAIEmbeddings()
+    self.vectorstore = Chroma(
+        persist_directory=persist_directory,
+        embedding_function=self.embeddings
+    )
