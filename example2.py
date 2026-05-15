@@ -66,3 +66,18 @@ def __init__(self, persist_directory: str = "./agent_memory"):
         persist_directory=persist_directory,
         embedding_function=self.embeddings
     )
+
+from typing import List
+from langchain_core.documents import Document
+
+def store_experience(self, task_description: str, solution_steps: List[str]):
+    """存储成功的任务解决经验"""
+    experience_text = f"任务: {task_description}\n解决方案: {' -> '.join(solution_steps)}"
+    doc = Document(page_content=experience_text)
+    self.vectorstore.add_documents([doc])
+
+def retrieve_experiences(self, current_task: str) -> List[str]:
+    """检索相关经验"""
+    retriever = self.vectorstore.as_retriever(search_kwargs={"k": 3})
+    candidates = retriever.invoke(current_task)
+    return [doc.page_content for doc in candidates]
