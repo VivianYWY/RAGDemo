@@ -81,3 +81,16 @@ def retrieve_experiences(self, current_task: str) -> List[str]:
     retriever = self.vectorstore.as_retriever(search_kwargs={"k": 3})
     candidates = retriever.invoke(current_task)
     return [doc.page_content for doc in candidates]
+
+# 使用示例
+short_memory = ShortTermMemory()
+long_memory = LongTermMemory()
+# 记忆系统集成应用
+def get_enhanced_context(user_query: str):
+    recent_context = short_memory.get_contextual_summary()
+    relevant_experiences = long_memory.retrieve_experiences(user_query)
+    return {
+        "query": user_query,
+        "conversation_history": recent_context,
+        "past_experiences": relevant_experiences
+    }
